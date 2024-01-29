@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .footer-bottom {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 60px; /* Высота футера */
+      line-height: 60px; /* Выравнивание текста по вертикали */
+      background-color: #3b3b3b;
+      color: rgba(255, 255, 255, 0.75);
+    }
+    .mini-profile-block {
+      display: flex;
+      align-items: top;
+    }
+
+    .user-login {
+      margin-left: 10px; /* или другое значение, чтобы установить нужный отступ между иконкой и именем пользователя */
+    }
+
+  </style>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-2 create-topic-block">
+      <button
+              sec:authorize="hasRole('ADMIN')"
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#createTopicModal">Создать тему</button>
+
+      <h5>Мои темы</h5>
+      <ul>
+          <a class="nav-link" href="#">ds</a>
+      </ul>
+
+      <h5>Основные категории</h5>
+      <ul>
+        <a class="nav-link" href="#">ds</a>
+      </ul>
+      <div class="mini-profile-block">
+        <img rel="icon"
+             th:src="@{'/uploads/' + ${user.filename}}"
+             type="image/x-icon"
+             class="mini-profile-avatar rounded-circle"
+             style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%;">
+        <span class="user-login" th:text="${user.username}">мяу</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="createTopicModal" tabindex="-1" role="dialog" aria-labelledby="createTopicModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 sec:authorize="hasRole('ADMIN')" class="modal-title" id="createTopicModalLabel">Создать тему</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" th:href="@{/artic/save}">
+          <input type="hidden" th:field="${artic.user.id}">
+          <div class="form-group">
+            <label for="topicTitle">Название темы</label>
+            <input type="text" class="form-control" id="topicTitle" th:field="${artic.title}" placeholder="Введите название темы">
+          </div>
+          <div class="form-group">
+            <label for="topicDescription">Описание темы</label>
+            <textarea class="form-control" id="topicDescription" th:field="${artic.description}" rows="3" placeholder="Введите описание темы"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="topicImage">Изображение</label>
+            <input type="file" class="form-control-file" id="topicImage">
+          </div>
+          <button type="submit" class="btn btn-primary">Создать тему</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

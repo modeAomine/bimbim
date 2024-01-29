@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin Panel - Users</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<header th:replace="~{fragments/header :: header}"></header>
+<body>
+<div class="container mt-5">
+  <h2>Users</h2>
+  <form th:action="@{/users}" method="get" class="form-inline mb-3">
+    <input type="text" class="form-control mr-2" name="param" th:value="${param}" placeholder="Search...">
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+  <form th:action="@{/users}" method="get" class="form-inline mb-2">
+    <button type="submit" class="btn btn-primary">Обновить</button>
+  </form>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Login</th>
+      <th>Registration Date</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Action</th>
+      <form th:action="@{/users/add}" method="get" class="form-inline mb-3">
+        <button type="submit" class="btn btn-primary">Добавить</button>
+      </form>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td th:text="${user.id}"></td>
+      <td th:text="${user.username}"></td>
+      <td th:text="${user.registrationDate}"></td>
+      <td th:text="${user.email}"></td>
+      <td th:text="${user.roles}"></td>
+      <td>
+        <a th:href="@{/users/{id}/edit(id=${user.id})}" class="btn btn-warning btn-sm">Edit</a>
+        <a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm">Delete</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
